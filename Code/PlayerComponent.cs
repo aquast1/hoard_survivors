@@ -5,7 +5,7 @@ public sealed class PlayerComponent : Component, HealthComponent.IEvents
 {
   public interface IEvents
   {
-    void OnUpgrade( GameObject gameObject, Upgrade upgrade ) { }
+    void OnUpgrade(GameObject gameObject, Upgrade upgrade) { }
   }
 
   [Property] public PlayerController PlayerController { get; set; }
@@ -40,12 +40,12 @@ public sealed class PlayerComponent : Component, HealthComponent.IEvents
 
     PlayerController.UseInputControls = true;
 
-    UpgradeOptions = UpgradePool.Take( 3 ).ToList();
+    UpgradeOptions = UpgradePool.Take(3).ToList();
   }
 
   public void Ragdoll()
   {
-    if ( _ragdoll.IsValid() ) return;
+    if (_ragdoll.IsValid()) return;
 
     _ragdoll = AddComponent<ModelPhysics>();
     _ragdoll.Renderer = PlayerModel;
@@ -56,7 +56,7 @@ public sealed class PlayerComponent : Component, HealthComponent.IEvents
 
   public void UnRagdoll()
   {
-    if ( !_ragdoll.IsValid() ) return;
+    if (!_ragdoll.IsValid()) return;
 
     _ragdoll.Destroy();
 
@@ -71,10 +71,10 @@ public sealed class PlayerComponent : Component, HealthComponent.IEvents
 
     PlayerController.WishVelocity = 0;
 
-    if ( ViewModel.IsValid() )
+    if (ViewModel.IsValid())
       ViewModel.Hide();
 
-    await Task.DelaySeconds( 3f );
+    await Task.DelaySeconds(3f);
 
     Respawn();
   }
@@ -89,31 +89,31 @@ public sealed class PlayerComponent : Component, HealthComponent.IEvents
 
     WorldPosition = _spawnPosition;
 
-    if ( ViewModel.IsValid() )
+    if (ViewModel.IsValid())
       ViewModel.Show();
   }
 
   [Rpc.Broadcast]
-  public void AddUpgrade( Upgrade upgrade )
+  public void AddUpgrade(Upgrade upgrade)
   {
-    Scene.RunEvent<IEvents>( x => x.OnUpgrade( GameObject, upgrade ) );
+    Scene.RunEvent<IEvents>(x => x.OnUpgrade(GameObject, upgrade));
 
-    if ( upgrade.ID == "movement_speed" )
+    if (upgrade.ID == "movement_speed")
     {
-      PlayerController.WalkSpeed += 20;
-      PlayerController.RunSpeed += 20;
+      PlayerController.WalkSpeed += 100;
+      PlayerController.RunSpeed += 100;
     }
 
-    ActiveUpgrades.Add( upgrade );
+    ActiveUpgrades.Add(upgrade);
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
+  void HealthComponent.IEvents.OnKilled(GameObject gameObject)
   {
     var playerComponent = gameObject.GetComponent<PlayerComponent>();
 
-    if ( !playerComponent.IsValid() ) return;
+    if (!playerComponent.IsValid()) return;
 
-    if ( playerComponent.PlayerId != PlayerId ) return;
+    if (playerComponent.PlayerId != PlayerId) return;
 
     Die();
   }

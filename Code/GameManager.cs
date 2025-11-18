@@ -1,69 +1,81 @@
 using Sandbox;
 
-public sealed class GameManager : GameObjectSystem<GameManager>, ISceneStartup
+public sealed class GameManager : Component, Component.INetworkListener
 {
-  public string TestVar = "test";
+  [Property]
+  [ReadOnly]
+  [Sync]
+  public NetList<PlayerComponent> Players { get; set; } = new();
 
-  public GameManager( Scene scene ) : base( scene )
+  [Property] public EnemyManager EnemyManager { get; set; }
+
+  public int RoundBreakTime = 5;
+
+  [Sync] public int CurrentRound { get; set; }
+
+  [Sync] public TimeUntil NextRound { get; set; }
+
+  private bool _roundBreak;
+  [Sync]
+  public bool RoundBreak
   {
+    get
+    {
+      return _roundBreak;
+    }
+    set
+    {
+      _roundBreak = value;
+      if ( _roundBreak )
+      {
+        NextRound = RoundBreakTime;
+      }
+    }
   }
 
-  void ISceneStartup.OnHostInitialize()
+  protected override void OnStart()
   {
-    TestVar = "test2";
+    CurrentRound = 0;
+    RoundBreak = true;
   }
 
-  // [Property] public EnemyManager EnemyManager { get; set; }
+  protected override void OnUpdate()
+  {
+    if ( NextRound <= 0 && RoundBreak )
+    {
+      StartRound();
+    }
 
-  // [Property] public float RoundBreakTime = 5f;
+    if ( EnemyManager.EnemiesKilled >= EnemyManager.EnemiesPerRound && !RoundBreak )
+    {
+      RoundBreak = true;
+    }
+  }
 
-  // [Sync] public int CurrentRound { get; set; }
+  private void StartRound()
+  {
+    RoundBreak = false;
+    EnemyManager.EnemiesKilled = 0;
+    EnemyManager.EnemiesSpawned = 0;
+    CurrentRound++;
+  }
 
-  // [Sync] public TimeUntil NextRound { get; set; }
+  public void OnActive( Connection connection )
+  {
+    UpdatePlayers();
+  }
 
-  // private bool _roundBreak;
-  // [Sync]
-  // public bool RoundBreak
-  // {
-  //   get
-  //   {
-  //     return _roundBreak;
-  //   }
-  //   set
-  //   {
-  //     _roundBreak = value;
-  //     if ( _roundBreak )
-  //     {
-  //       NextRound = RoundBreakTime;
-  //     }
-  //   }
-  // }
+  public void OnDisconnected( Connection connection )
+  {
+    UpdatePlayers();
+  }
 
-  // protected override void OnStart()
-  // {
-  //   CurrentRound = 0;
-  //   // StartRound();
-  //   RoundBreak = true;
-  // }
-
-  // protected override void OnUpdate()
-  // {
-  //   if ( NextRound <= 0 && RoundBreak )
-  //   {
-  //     StartRound();
-  //   }
-
-  //   if ( EnemyManager.EnemiesKilled >= EnemyManager.EnemiesPerRound && !RoundBreak )
-  //   {
-  //     RoundBreak = true;
-  //   }
-  // }
-
-  // private void StartRound()
-  // {
-  //   RoundBreak = false;
-  //   EnemyManager.EnemiesKilled = 0;
-  //   EnemyManager.EnemiesSpawned = 0;
-  //   CurrentRound++;
-  // }
+  public void UpdatePlayers()
+  {
+    Players.Clear();
+    foreach ( var player in Scene.GetAllComponents<PlayerComponent>() )
+    {
+      Log.Info( $"{player.PlayerId}" );
+    }
+  }
 }

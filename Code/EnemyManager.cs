@@ -4,9 +4,9 @@ public sealed class EnemyManager : Component, HealthComponent.IEvents
 {
   [Property] public GameObject ZombiePrefab { get; set; }
 
-  [Property] public int MaxSpawnedEnemies = 3;
+  [Property] public int MaxSpawnedEnemies = 1;
 
-  [Property] public int EnemiesPerRound = 5;
+  [Property] public int EnemiesPerRound = 1;
 
   [Sync] public List<GameObject> Enemies { get; set; }
 
@@ -23,25 +23,25 @@ public sealed class EnemyManager : Component, HealthComponent.IEvents
 
   protected override void OnUpdate()
   {
-    if ( IsProxy ) return;
+    if (IsProxy) return;
 
-    if ( Enemies.Count >= MaxSpawnedEnemies || EnemiesSpawned >= EnemiesPerRound ) return;
+    if (Enemies.Count >= MaxSpawnedEnemies || EnemiesSpawned >= EnemiesPerRound) return;
 
     SpawnEnemy();
   }
 
   public void SpawnEnemy()
   {
-    var zombie = ZombiePrefab.Clone( Vector3.Zero );
+    var zombie = ZombiePrefab.Clone(Vector3.Zero);
     zombie.NetworkSpawn();
-    Enemies.Add( zombie );
+    Enemies.Add(zombie);
     EnemiesSpawned++;
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
+  void HealthComponent.IEvents.OnKilled(GameObject gameObject)
   {
-    if ( IsProxy ) return;
-    Enemies.Remove( gameObject );
+    if (IsProxy) return;
+    Enemies.Remove(gameObject);
     gameObject.Destroy();
     EnemiesKilled++;
   }

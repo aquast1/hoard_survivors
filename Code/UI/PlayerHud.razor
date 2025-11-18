@@ -37,12 +37,12 @@
 
   protected override void OnStart()
   {
-    @* GameManager = Scene.GetComponentInChildren<GameManager>(); *@
+    GameManager = Scene.GetComponentInChildren<GameManager>();
   }
 
   protected override void OnUpdate()
   {
-    @* CurrentRound = GameManager.CurrentRound;
-    NextRound = MathF.Round(GameManager.NextRound); *@
+    CurrentRound = GameManager.CurrentRound;
+    NextRound = MathF.Round(GameManager.NextRound);
   }
 }
