@@ -1,0 +1,31 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@(Player.UpgradeOptions.Count > 0 ? "" : "hide")">
+  @foreach (var upgrade in Player.UpgradeOptions)
+  {
+
+    <div class="upgrade" onclick=@(() => OnSelect(upgrade))>
+      <span>@upgrade.Title</span>
+    </div>
+  }
+</root>
+
+@code
+{
+  [Property] public PlayerComponent Player { get; set; }
+
+  /// <summary>
+  /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+  /// </summary>
+  protected override int BuildHash() => System.HashCode.Combine(Player.UpgradeOptions);
+
+  void OnSelect(Upgrade upgrade)
+  {
+    Player.AddUpgrade(upgrade);
+
+    Player.UpgradeOptions.Clear();
+  }
+}

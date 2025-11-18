@@ -1,0 +1,28 @@
+UpgradeSelect
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #44444444;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	border-radius: 20px;
+  pointer-events: all;
+  font-size: 60px;
+  flex-direction: column;
+  gap: 12px;
+
+  &.hide {
+    display: none;
+  }
+  
+  .upgrade {
+    cursor: pointer;
+    background-color: white;
+    padding: 12px;
+    border-radius: 3px;
+  }
+}
