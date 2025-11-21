@@ -1,6 +1,7 @@
 {
   "ID": "damage",
-  "Title": "Increased Damage",
+  "Title": "+ Damage",
+  "Icon": "⚔️",
   "__references": [],
   "__version": 0
 }

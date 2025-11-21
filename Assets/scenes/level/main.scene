@@ -1,0 +1,405 @@
+{
+  "__guid": "0aae094d-68ac-4870-b69d-7011fd152deb",
+  "GameObjects": [
+    {
+      "__guid": "919f2859-ef62-4a2c-9a6d-3c630fd69333",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "GameManager",
+      "Position": "0,0,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 1,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "GameManager",
+          "__guid": "ea78fa3f-8d96-4260-b9bd-abeed989c8f8",
+          "__enabled": true,
+          "CurrentRound": 0,
+          "EnemyManager": {
+            "_type": "component",
+            "component_id": "d717003b-3efd-47c8-bbee-a683c6a3cd9e",
+            "go": "919f2859-ef62-4a2c-9a6d-3c630fd69333",
+            "component_type": "EnemyManager"
+          },
+          "NetworkManager": {
+            "_type": "component",
+            "component_id": "335253b0-3923-4b49-8849-dc38bf704be8",
+            "go": "919f2859-ef62-4a2c-9a6d-3c630fd69333",
+            "component_type": "NetworkManager"
+          },
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "PlayerCharacterPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/playercharacter.prefab"
+          },
+          "PlayerCharacters": [],
+          "PlayerClientPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/playerclient.prefab"
+          },
+          "RoundBreak": false,
+          "SpawnPoints": [
+            {
+              "_type": "gameobject",
+              "go": "995ba72a-5fc2-406d-8a9c-b03a9e7dfac5"
+            }
+          ],
+          "SpectatorCameraSpawnPoint": {
+            "_type": "gameobject",
+            "go": "f5072341-53f5-44c7-aa22-abbad0480b09"
+          }
+        },
+        {
+          "__type": "EnemyManager",
+          "__guid": "d717003b-3efd-47c8-bbee-a683c6a3cd9e",
+          "__enabled": true,
+          "EnemiesPerRound": 1,
+          "GameManager": {
+            "_type": "component",
+            "component_id": "ea78fa3f-8d96-4260-b9bd-abeed989c8f8",
+            "go": "919f2859-ef62-4a2c-9a6d-3c630fd69333",
+            "component_type": "GameManager"
+          },
+          "MaxSpawnedEnemies": 1,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "ZombiePrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/enemy.prefab"
+          }
+        },
+        {
+          "__type": "Sandbox.NetworkManager",
+          "__guid": "335253b0-3923-4b49-8849-dc38bf704be8",
+          "__enabled": true,
+          "NetworkPlayerPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/networkplayer.prefab"
+          },
+          "NetworkPlayers": [],
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "StartServer": true
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "c15c73c0-de35-45f7-9344-27461b8224c3",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "Sun",
+      "Position": "0,0,0",
+      "Rotation": "-0.1464466,0.3535534,0.3535534,0.8535534",
+      "Scale": "1,1,1",
+      "Tags": "light_directional,light",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.DirectionalLight",
+          "__guid": "71b97d7b-73be-47d9-8c00-6c7817d0c8a5",
+          "__enabled": true,
+          "FogMode": "Enabled",
+          "FogStrength": 0.22119816,
+          "LightColor": "0.73488,0.93974,1,1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "Shadows": true,
+          "SkyColor": "1,1,1,0"
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "263d7d2b-523b-4001-909b-5a5098b6f81e",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "2D Skybox",
+      "Position": "0,0,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "skybox",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.SkyBox2D",
+          "__guid": "b1e2bbca-387e-4bf8-b7cb-e7f6998bb49f",
+          "__enabled": true,
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "SkyIndirectLighting": true,
+          "SkyMaterial": "materials/skybox/skybox_dark_01.vmat",
+          "Tint": "0.1814,0.1814,0.1814,1"
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "995ba72a-5fc2-406d-8a9c-b03a9e7dfac5",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "SpawnPoint",
+      "Position": "0,0,0",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.SpawnPoint",
+          "__guid": "ed15a98d-afad-4943-a308-dea91fda2750",
+          "__enabled": true,
+          "Color": "0.8902,0.31765,0.05098,1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "f5072341-53f5-44c7-aa22-abbad0480b09",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "SpectatorSpawnPoint",
+      "Position": "968.5743,-522.2563,782.8512",
+      "Rotation": "-0.3331766,0.08927444,0.9066456,0.242935",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [],
+      "Children": []
+    },
+    {
+      "__guid": "56fed907-7c99-4cad-96c8-72ced0a46472",
+      "__version": 1,
+      "Flags": 0,
+      "Name": "Box",
+      "Position": "256,-256,-16",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkInterpolation": true,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.MeshComponent",
+          "__guid": "a67f24eb-8e86-4e53-a0ec-64e99be36342",
+          "__enabled": true,
+          "ColliderFlags": 0,
+          "Collision": "Mesh",
+          "Color": "1,1,1,1",
+          "Elasticity": null,
+          "Friction": null,
+          "HideInGame": false,
+          "IsTrigger": false,
+          "Mesh": {
+            "Topology": "H4sIAAAAAAAACl2QCQ7CMAwEp4Qj3NBy/f+laMRGsohUVbFn1+t04ANs+Z0VsM69AwfgBFyAKZ9MPXdgk3qLnsI+Um/h/me9i2ZXfFvYOazafTJN0XRgKZmPyWtfXvYVL73PZRd52WdYPa7xtC8veys7u6t17/7t6Tn0ZtFjvIXZR895zjKjPWf4NiOrGt+ivpXZ3XnozaOndVn9vvVkkTjEAQAA",
+            "Position": "256,-256,-16",
+            "Rotation": "0,0,0,1",
+            "Positions": [
+              "-768,-256,16",
+              "256,-256,16",
+              "256,768,16",
+              "-768,768,16",
+              "-768,768,-16",
+              "256,768,-16",
+              "256,-256,-16",
+              "-768,-256,-16"
+            ],
+            "TextureCoord": [
+              "2,2",
+              "-6,0.875",
+              "2,-6",
+              "-2,0.875",
+              "-6,-6",
+              "-2,0.875",
+              "-6,2",
+              "-6,0.875",
+              "2,-6",
+              "6,1.125",
+              "2,2",
+              "6,1.125",
+              "-6,2",
+              "2,1.125",
+              "-6,-6",
+              "2,1.125",
+              "2,0.875",
+              "-6,1.125",
+              "-6,1.125",
+              "6,0.875",
+              "-2,1.125",
+              "2,0.875",
+              "6,0.875",
+              "-2,1.125"
+            ],
+            "TextureUAxis": [
+              "1,0,0",
+              "1,0,-0",
+              "0,-1,0",
+              "0,1,0",
+              "-1,0,0",
+              "1,-0,0"
+            ],
+            "TextureVAxis": [
+              "0,-1,0",
+              "0,-1,0",
+              "0,0,-1",
+              "-0,0,-1",
+              "0,0,-1",
+              "-0,0,-1"
+            ],
+            "TextureScale": [
+              "0.25,0.25",
+              "0.25,0.25",
+              "0.25,0.25",
+              "0.25,0.25",
+              "0.25,0.25",
+              "0.25,0.25"
+            ],
+            "TextureOffset": [
+              "0,0",
+              "0,0",
+              "0,448",
+              "0,448",
+              "0,448",
+              "0,448"
+            ],
+            "MaterialIndex": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "EdgeFlags": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "Materials": [
+              "materials/dev/reflectivity_30.vmat"
+            ]
+          },
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null,
+          "OnObjectTriggerEnter": null,
+          "OnObjectTriggerExit": null,
+          "OnTriggerEnter": null,
+          "OnTriggerExit": null,
+          "RenderType": "On",
+          "RollingResistance": null,
+          "SmoothingAngle": 40,
+          "Static": true,
+          "Surface": null,
+          "SurfaceVelocity": "0,0,0"
+        }
+      ],
+      "Children": []
+    }
+  ],
+  "SceneProperties": {
+    "NetworkInterpolation": true,
+    "TimeScale": 1,
+    "WantsSystemScene": true,
+    "Metadata": {},
+    "NavMesh": {
+      "Enabled": true,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "ResourceVersion": 3,
+  "Title": null,
+  "Description": null,
+  "__references": [],
+  "__version": 3
+}

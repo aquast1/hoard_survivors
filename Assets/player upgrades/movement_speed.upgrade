@@ -1,6 +1,7 @@
 {
   "ID": "movement_speed",
-  "Title": "Increased Movement Speed",
+  "Title": "+ Movement Speed",
+  "Icon": "\uD83C\uDFC3",
   "__references": [],
   "__version": 0
 }

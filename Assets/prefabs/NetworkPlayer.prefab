@@ -1,0 +1,65 @@
+{
+  "RootObject": {
+    "__guid": "ffd74298-bf81-41cd-b17c-7329ac7f7618",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "networkplayer",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 1,
+    "NetworkInterpolation": false,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "NetworkPlayer",
+        "__guid": "86e939bc-05e6-4e74-810a-b144b596c3e3",
+        "__enabled": true,
+        "ActiveUpgrades": [],
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "UpgradeOptions": [],
+        "UpgradePool": [
+          "player upgrades/reload_speed.upgrade",
+          "player upgrades/movement_speed.upgrade",
+          "player upgrades/damage.upgrade"
+        ]
+      }
+    ],
+    "Children": [],
+    "__properties": {
+      "NetworkInterpolation": false,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

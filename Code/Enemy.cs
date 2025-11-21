@@ -37,14 +37,14 @@ public sealed class Enemy : Component, HealthComponent.IEvents
       Agent.Stop();
     }
 
-    ModelRenderer.Set( "speed", Agent.Velocity.Length );
+    // ModelRenderer.Set( "speed", Agent.Velocity.Length );
   }
 
   private void FindTarget()
   {
     float minDistance = float.MaxValue;
 
-    foreach ( var player in Scene.GetAllComponents<PlayerComponent>() )
+    foreach ( var player in Scene.GetAllComponents<PlayerCharacter>() )
     {
       float distance = Vector3.DistanceBetween( WorldPosition, player.WorldPosition );
 
@@ -66,7 +66,7 @@ public sealed class Enemy : Component, HealthComponent.IEvents
   {
     if ( currentState == EnemyState.Attack ) return;
     currentState = EnemyState.Attack;
-    ModelRenderer.Set( "b_attack", true );
+    // ModelRenderer.Set( "b_attack", true );
 
     await Task.DelaySeconds( 3f );
 
@@ -77,6 +77,6 @@ public sealed class Enemy : Component, HealthComponent.IEvents
   {
     if ( gameObject != GameObject ) return;
 
-    ModelRenderer.Set( "hurt", true );
+    // ModelRenderer.Set( "hurt", true );
   }
 }

@@ -11,7 +11,7 @@ Layer0
 	//---- Color ----
 	g_flModelTintAmount "1.000"
 	g_vColorTint "[1.000000 1.000000 1.000000 0.000000]"
-	TextureColor "models/zombie/zombie.fbm/ch10_1002_diffuse.png"
+	TextureColor "models/zombie/textures/ch10_1002_diffuse.png"
 
 	//---- Fade ----
 	g_flFadeExponent "1.000"
@@ -23,7 +23,7 @@ Layer0
 	g_flMetalness "0.000"
 
 	//---- Normal ----
-	TextureNormal "models/zombie/zombie.fbm/ch10_1002_normal.png"
+	TextureNormal "models/zombie/textures/ch10_1002_normal.png"
 
 	//---- Roughness ----
 	g_flRoughnessScaleFactor "1.000"

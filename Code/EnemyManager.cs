@@ -2,47 +2,40 @@ using Sandbox;
 
 public sealed class EnemyManager : Component, HealthComponent.IEvents
 {
+  [Property] public GameManager GameManager;
   [Property] public GameObject ZombiePrefab { get; set; }
-
   [Property] public int MaxSpawnedEnemies = 1;
-
   [Property] public int EnemiesPerRound = 1;
 
-  [Sync] public List<GameObject> Enemies { get; set; }
+  [Sync] public NetList<GameObject> Enemies { get; set; } = new();
 
   [Sync] public int EnemiesSpawned { get; set; }
 
   [Sync] public int EnemiesKilled { get; set; }
 
-  protected override void OnStart()
-  {
-    Enemies = new();
-    EnemiesSpawned = EnemiesPerRound;
-    EnemiesKilled = EnemiesPerRound;
-  }
-
   protected override void OnUpdate()
   {
-    if (IsProxy) return;
+    if ( GameManager.RoundBreak ) return;
 
-    if (Enemies.Count >= MaxSpawnedEnemies || EnemiesSpawned >= EnemiesPerRound) return;
+    if ( Enemies.Count >= MaxSpawnedEnemies || EnemiesSpawned >= EnemiesPerRound ) return;
 
     SpawnEnemy();
   }
 
   public void SpawnEnemy()
   {
-    var zombie = ZombiePrefab.Clone(Vector3.Zero);
+    var zombie = ZombiePrefab.Clone( Vector3.Zero );
     zombie.NetworkSpawn();
-    Enemies.Add(zombie);
+    Enemies.Add( zombie );
     EnemiesSpawned++;
   }
 
-  void HealthComponent.IEvents.OnKilled(GameObject gameObject)
+  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
   {
-    if (IsProxy) return;
-    Enemies.Remove(gameObject);
+    Enemies.Remove( gameObject );
     gameObject.Destroy();
     EnemiesKilled++;
+
+    if ( EnemiesKilled >= EnemiesPerRound ) GameManager.StartRoundBreak();
   }
 }

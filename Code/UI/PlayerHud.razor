@@ -7,33 +7,30 @@
 <root>
   <div class="round-info">
     <div class="current-round">
-      Round <span style="margin-left: 12px;">@CurrentRound</span>
+      Round <span>@CurrentRound</span>
     </div>
     <div class="round-break @(NextRound > 0 ? "" : "hide")">
-      Break, Next round in: <span style="margin-left: 12px;">@NextRound</span>
+      <span>Choose your upgrades</span>
+      <span>Next round in @(NextRound)</span>
     </div>
   </div>
-  <div class="ammo">
-    <div>
-      <span style="margin-right: 12px;">@Player.WeaponController.Ammo</span>
-      /
-      <span style="margin-left: 12px;">@Player.WeaponController.MaxAmmo</span>
+  @if (PlayerClient.PlayerCharacter.IsValid())
+  {
+    <div class="ammo">
+      <span>@(PlayerClient.PlayerCharacter?.WeaponController.Ammo)</span>/<span>@(PlayerClient.PlayerCharacter?.WeaponController.MaxAmmo)</span>
     </div>
-  </div>
+  }
 </root>
 
 @code
 {
-  [Property] PlayerComponent Player { get; set; }
+  [Property] PlayerClient PlayerClient { get; set; }
   GameManager GameManager;
   int CurrentRound = 1;
   float NextRound = 0f;
 
-  /// <summary>
-  /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
-  /// </summary>
-  protected override int BuildHash() => System.HashCode.Combine(Player.WeaponController.Ammo,
-  Player.WeaponController.MaxAmmo, CurrentRound, NextRound);
+  protected override int BuildHash() => System.HashCode.Combine(PlayerClient.PlayerCharacter?.WeaponController.Ammo,
+  PlayerClient.PlayerCharacter?.WeaponController.MaxAmmo, CurrentRound, NextRound);
 
   protected override void OnStart()
   {

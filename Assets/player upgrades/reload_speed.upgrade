@@ -1,6 +1,7 @@
 {
   "ID": "reload_speed",
-  "Title": "Increased Reload Speed",
+  "Title": "+ Reload Speed",
+  "Icon": "\uD83D\uDD04️",
   "__references": [],
   "__version": 0
 }

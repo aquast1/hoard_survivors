@@ -1,0 +1,113 @@
+{
+  "RootObject": {
+    "__guid": "83f0eb3c-d043-4902-b34f-30c88012f60b",
+    "__version": 1,
+    "Flags": 0,
+    "Name": "bullettracker",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkInterpolation": true,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.BeamEffect",
+        "__guid": "db25fd0c-563e-4981-866b-02b015cf9f68",
+        "__enabled": true,
+        "Additive": false,
+        "Alpha": 1,
+        "BeamColor": {
+          "Type": "Constant",
+          "Evaluation": "Life",
+          "GradientA": {
+            "blend": "Linear",
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "GradientB": {
+            "blend": "Linear",
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "ConstantA": "1,1,1,1",
+          "ConstantB": "1,1,1,1"
+        },
+        "BeamLifetime": 0.1,
+        "BeamsPerSecond": 0,
+        "Brightness": 1,
+        "DepthFeather": 0,
+        "FollowPoints": true,
+        "InitialBurst": 1,
+        "Lighting": false,
+        "Looped": false,
+        "Material": null,
+        "MaxBeams": 1,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Opaque": false,
+        "Scale": 1,
+        "Shadows": false,
+        "TargetGameObject": null,
+        "TargetPosition": "0,0,0",
+        "TargetRandom": "0,0,0",
+        "Texture": null,
+        "TextureOffset": 1,
+        "TextureScale": 128,
+        "TextureScroll": 0,
+        "TextureScrollSpeed": 0,
+        "TravelBetweenPoints": true,
+        "TravelLerp": {
+          "Type": "Range",
+          "Evaluation": "Life",
+          "Constants": "0,1,0,0"
+        }
+      }
+    ],
+    "Children": [],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": true,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": ""
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}
