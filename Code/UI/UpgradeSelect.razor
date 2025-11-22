@@ -1,64 +1,35 @@
-@using Sandbox;
-@using Sandbox.UI;
-@inherits PanelComponent
-@namespace Sandbox
-
-<root class="@(Visible ? "visible" : "")">
-  <div class="main">
-    @if (Visible)
-    {
-      <div class="upgrade-select">
-        @if (Client.NetworkPlayer?.UpgradeOptions.Count > 0)
-        {
-          <h1>Round @(Client.NetworkPlayer.UpgradeRound) Upgrades</h1>
-          <p>Choose an upgrade for this round</p>
-          <div class="upgrade-options">
-            @foreach (Upgrade upgrade in Client.NetworkPlayer?.UpgradeOptions)
-            {
-              <div onclick=@(() => OnSelect(upgrade)) class="upgrade">
-                <div class="card">
-                  <span class="icon">@upgrade.Icon</span>
-                  <span class="title">@upgrade.Title</span>
-                </div>
-              </div>
-            }
+<root>
+  @if (NetworkPlayer?.UpgradeOptions.Count > 0)
+  {
+    <h1>Round @(NetworkPlayer.UpgradeRound) Upgrades</h1>
+    <p>Choose an upgrade for this round</p>
+    <div class="upgrade-options">
+      @foreach (Upgrade upgrade in NetworkPlayer?.UpgradeOptions)
+      {
+        <div onclick=@(() => OnSelect(upgrade)) class="upgrade">
+          <div class="card">
+            <span class="icon">@upgrade.Icon</span>
+            <span class="title">@upgrade.Title</span>
           </div>
-        }
-        else
-        {
-          <div class="empty">
-            <h1>No Upgrades</h1>
-            <p>More upgrades available next round</p>
-          </div>
-        }
-      </div>
-    }
-  </div>
-
-  <div class="prompt @(Client.NetworkPlayer?.UpgradeOptions.Count > 0 ? "highlight" : "")" onclick=@( () => Visible
-                                                                                              = false )>
-    <Image Texture="@Input.GetGlyph("menu", InputGlyphSize.Small, true)" /> @(!Visible ? "Upgrades" : "Close")
-  </div>
+        </div>
+      }
+    </div>
+  }
+  else
+  {
+    <div class="empty">
+      <h1>No Upgrades</h1>
+      <p>More upgrades available next round</p>
+    </div>
+  }
 </root>
 
 @code
 {
-  [Property] public PlayerClient Client { get; set; }
-
-  public bool Visible = false;
-
-  protected override int BuildHash() => System.HashCode.Combine(Visible, Client.NetworkPlayer?.UpgradeOptions.Count);
-
-  protected override void OnUpdate()
-  {
-    if (Input.Pressed("menu"))
-    {
-      Visible = !Visible;
-    }
-  }
+  public NetworkPlayer NetworkPlayer { get; set; }
 
   void OnSelect(Upgrade upgrade)
   {
-    Client.NetworkPlayer.SelectUpgrade(upgrade);
+    NetworkPlayer.SelectUpgrade(upgrade);
   }
 }

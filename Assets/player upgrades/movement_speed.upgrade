@@ -1,5 +1,5 @@
 {
-  "ID": "movement_speed",
+  "Type": "MovementSpeed",
   "Title": "+ Movement Speed",
   "Icon": "\uD83C\uDFC3",
   "__references": [],

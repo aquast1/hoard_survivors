@@ -26,6 +26,13 @@
         "OnComponentFixedUpdate": null,
         "OnComponentStart": null,
         "OnComponentUpdate": null,
+        "PlayerClientPrefab": {
+          "_type": "gameobject",
+          "prefab": "prefabs/playerclient.prefab"
+        },
+        "StatMovementSpeed": 1,
+        "StatReloadSpeed": 1,
+        "StatWeaponDamage": 1,
         "UpgradeOptions": [],
         "UpgradePool": [
           "player upgrades/reload_speed.upgrade",

@@ -69,14 +69,6 @@ public sealed class GameManager : Component, Component.INetworkListener, ISceneS
   public void StartRoundBreak()
   {
     CurrentRound++;
-    // Check if any players are missing from player list and spawn
-    var playerConnections = new List<Connection>( PlayerCharacters.Select( p => p.Network.Owner ) );
-    foreach ( Connection connection in Connection.All )
-    {
-      if ( playerConnections.Contains( connection ) ) continue;
-
-      SpawnPlayerCharacter( connection );
-    }
 
     RoundBreak = true;
 
@@ -102,20 +94,33 @@ public sealed class GameManager : Component, Component.INetworkListener, ISceneS
     }
   }
 
-  [Rpc.Broadcast( NetFlags.HostOnly )]
-  private void SpawnPlayerCharacter( Connection connection )
+  public void SpawnPlayerCharacter( NetworkPlayer networkPlayer )
   {
-    // Find a spawn location for this player
+    if ( IsProxy ) return;
+
+    Connection connection = Connection.All.FirstOrDefault( c => c.Id == networkPlayer.ConnectionId );
+
     var startLocation = FindSpawnLocation().WithScale( 1 );
 
     // Spawn this object and make the client the owner
     var player = PlayerCharacterPrefab.Clone( startLocation, name: $"PlayerCharacter - {connection.DisplayName}" );
+
+    Log.Info( player.Enabled );
+
     player.NetworkSpawn( connection );
+
     PlayerCharacter playerCharacter = player.GetComponent<PlayerCharacter>();
+
     PlayerCharacters.Add( playerCharacter );
 
-    NetworkPlayer networkPlayer = NetworkManager.NetworkPlayers.FirstOrDefault( p => p.ConnectionId == connection.Id );
     playerCharacter.NetworkPlayer = networkPlayer;
+
+    // foreach ( Upgrade upgrade in networkPlayer.ActiveUpgrades )
+    // {
+    //   playerCharacter.HandleUpgrade( upgrade );
+    // }
+
+    // networkPlayer.PlayerCharacter = playerCharacter;
   }
 
   private Transform FindSpawnLocation()
@@ -142,15 +147,6 @@ public sealed class GameManager : Component, Component.INetworkListener, ISceneS
   {
     PlayerClientPrefab.Clone( SpectatorCameraSpawnPoint.WorldTransform );
   }
-
-  // TODO: rethink this so we don't accidentally spawn multiple player characters
-  // void INetworkListener.OnActive( Connection connection )
-  // {
-  //   // If round in progress or about to start, it's too late and player will spawn at the end of the next round
-  //   if ( NextRound <= 5 || !RoundBreak ) return;
-
-  //   SpawnPlayerCharacter( connection );
-  // }
 
   void NetworkPlayer.IEvents.OnUpgrade( NetworkPlayer networkPlayer, Upgrade upgrade )
   {

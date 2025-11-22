@@ -126,23 +126,6 @@
         "OnComponentUpdate": null
       },
       {
-        "__type": "Sandbox.UpgradeSelect",
-        "__guid": "ef2ddaac-6713-4181-8373-d2da1436f0c1",
-        "__enabled": true,
-        "Client": {
-          "_type": "component",
-          "component_id": "c700f60c-422e-425d-8296-6bde20273c52",
-          "go": "48d94d93-8ccc-4878-b0d8-dbeb147e4114",
-          "component_type": "PlayerClient"
-        },
-        "OnComponentDestroy": null,
-        "OnComponentDisabled": null,
-        "OnComponentEnabled": null,
-        "OnComponentFixedUpdate": null,
-        "OnComponentStart": null,
-        "OnComponentUpdate": null
-      },
-      {
         "__type": "Sandbox.PlayerHud",
         "__guid": "7a428098-2883-4946-804d-62357da591c5",
         "__enabled": true,
@@ -158,6 +141,23 @@
           "go": "48d94d93-8ccc-4878-b0d8-dbeb147e4114",
           "component_type": "PlayerClient"
         }
+      },
+      {
+        "__type": "Sandbox.StatsMenu",
+        "__guid": "103e33c6-b3a4-4aae-bf82-9f501d8df1c2",
+        "__enabled": true,
+        "Client": {
+          "_type": "component",
+          "component_id": "c700f60c-422e-425d-8296-6bde20273c52",
+          "go": "48d94d93-8ccc-4878-b0d8-dbeb147e4114",
+          "component_type": "PlayerClient"
+        },
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null
       }
     ],
     "Children": [

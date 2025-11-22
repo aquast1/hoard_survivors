@@ -1,7 +1,14 @@
 [AssetType( Name = "Upgrade Type", Extension = "upgrade" )]
 public partial class Upgrade : GameResource
 {
-  public string ID { get; set; }
+  public enum UpgradeType
+  {
+    WeaponDamage,
+    MovementSpeed,
+    ReloadSpeed
+  }
+
+  public UpgradeType Type { get; set; }
 
   public string Title { get; set; }
 

@@ -11,9 +11,23 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
 
   [Sync] public bool IsRunning { get; set; }
 
+  [Property]
+  [ReadOnly]
   public NetworkPlayer NetworkPlayer;
 
   private ModelPhysics _ragdoll;
+
+  private int _movementSpeed;
+  public int MovementSpeed
+  {
+    get => _movementSpeed;
+    set
+    {
+      _movementSpeed = value;
+      PlayerController.WalkSpeed = (_movementSpeed * 50) + 100;
+      PlayerController.RunSpeed = (_movementSpeed * 75) + 200;
+    }
+  }
 
   protected override void OnStart()
   {
@@ -25,6 +39,8 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
     PlayerModel.Set( "holdtype", 1 );
 
     Dresser.Apply();
+
+    MovementSpeed = 1;
   }
 
   public void Ragdoll()
@@ -69,15 +85,20 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
     HealthComponent.Respawn();
   }
 
+  public void HandleUpgrade( Upgrade upgrade )
+  {
+    if ( upgrade.Type == Upgrade.UpgradeType.MovementSpeed )
+    {
+      MovementSpeed += 1;
+    }
+
+  }
+
   void NetworkPlayer.IEvents.OnUpgrade( NetworkPlayer networkPlayer, Upgrade upgrade )
   {
     if ( networkPlayer != NetworkPlayer ) return;
 
-    if ( upgrade.ID == "movement_speed" )
-    {
-      PlayerController.WalkSpeed += 100;
-      PlayerController.RunSpeed += 100;
-    }
+    HandleUpgrade( upgrade );
   }
 
   void HealthComponent.IEvents.OnKilled( GameObject gameObject )

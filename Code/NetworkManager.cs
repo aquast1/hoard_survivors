@@ -15,17 +15,12 @@ public sealed class NetworkManager : Component, Component.INetworkListener
   [Sync]
   public NetList<NetworkPlayer> NetworkPlayers { get; set; } = new();
 
-  /// <summary>
-  /// Create a server (if we're not joining one)
-  /// </summary>
-  [Property] public bool StartServer { get; set; } = true;
-
   protected override async Task OnLoad()
   {
     if ( Scene.IsEditor )
       return;
 
-    if ( StartServer && !Networking.IsActive )
+    if ( !Networking.IsActive )
     {
       LoadingScreen.Title = "Creating Lobby";
       await Task.DelayRealtimeSeconds( 0.1f );

@@ -1,0 +1,86 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using System.Net.Http
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@(Visible ? "visible" : "")">
+  <div class="main">
+    <div class="stats-menu">
+      <h1>Stats</h1>
+      <div class="stats">
+        <div class="stat">
+          <span class="title">Movement Speed</span>
+          <span>@Client.NetworkPlayer.StatMovementSpeed</span>
+        </div>
+        <div class="stat">
+          <span class="title">Reload Speed </span>
+          <span>@Client.NetworkPlayer.StatReloadSpeed</span>
+        </div>
+        <div class="stat">
+          <span class="title">Damage</span>
+          <span>@Client.NetworkPlayer.StatWeaponDamage</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider" />
+
+    <div class="upgrade-select">
+      @if (HasUpgrades)
+      {
+        <h1>Round @(Client.NetworkPlayer.UpgradeRound) Upgrades</h1>
+        <p>Choose an upgrade for this round</p>
+        <div class="upgrade-options">
+          @foreach (Upgrade upgrade in Client.NetworkPlayer?.UpgradeOptions)
+          {
+            <div onclick=@(() => OnSelect(upgrade)) class="upgrade">
+              <div class="card">
+                <span class="icon">@upgrade.Icon</span>
+                <span class="title">@upgrade.Title</span>
+              </div>
+            </div>
+          }
+        </div>
+      }
+      else
+      {
+        <div class="empty">
+          <h1>No Upgrades</h1>
+          <p>More upgrades available next round</p>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="prompt @(HasUpgrades ? "highlight" : "")" onclick=@( () => Visible = false )>
+    <Image Texture="@Input.GetGlyph("menu", InputGlyphSize.Small, true)" /> @(!Visible ? "Upgrades" : "Close")
+  </div>
+</root>
+
+@code
+{
+  protected override int BuildHash() => System.HashCode.Combine(Visible,
+  Client.NetworkPlayer.UpgradeRound, HasUpgrades);
+
+  [Property] public PlayerClient Client { get; set; }
+
+  public bool Visible = false;
+
+  private bool HasUpgrades = false;
+
+  void OnSelect(Upgrade upgrade)
+  {
+    Client.NetworkPlayer.SelectUpgrade(upgrade);
+  }
+
+  protected override void OnUpdate()
+  {
+    if (Input.Pressed("menu"))
+    {
+      Visible = !Visible;
+    }
+
+    HasUpgrades = Client.NetworkPlayer.UpgradeOptions.Count() > 0;
+  }
+}
