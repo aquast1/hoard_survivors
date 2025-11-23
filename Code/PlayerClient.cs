@@ -34,6 +34,11 @@ public sealed class PlayerClient : Component
     }
   }
 
+  protected override void OnStart()
+  {
+    Log.Info( "valid " + NetworkPlayer.IsValid() );
+  }
+
   protected override void OnUpdate()
   {
     HandleInput();

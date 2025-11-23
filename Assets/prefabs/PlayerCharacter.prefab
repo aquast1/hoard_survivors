@@ -31,6 +31,7 @@
           "go": "dd5d87c7-6c4b-4a3a-81fc-8ae8f2744f28",
           "component_type": "HealthComponent"
         },
+        "NetworkPlayer": null,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -61,6 +62,10 @@
         "__guid": "f79c09ad-a83a-4f3b-ab96-398405a7da34",
         "__enabled": true,
         "Ammo": 0,
+        "BulletTracerPrefab": {
+          "_type": "gameobject",
+          "prefab": "prefabs/bullettracer.prefab"
+        },
         "FireCooldown": 0.2,
         "IsReloading": false,
         "MaxAmmo": 6,
@@ -87,8 +92,7 @@
           "component_id": "0ef59679-ca49-4343-8481-894991c08521",
           "go": "dd5d87c7-6c4b-4a3a-81fc-8ae8f2744f28",
           "component_type": "PlayerCharacter"
-        },
-        "WeaponDamage": 50
+        }
       },
       {
         "__type": "HealthComponent",

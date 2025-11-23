@@ -10,14 +10,11 @@ public enum EnemyState
 
 public sealed class Enemy : Component, HealthComponent.IEvents
 {
-  [Property]
-  public SkinnedModelRenderer ModelRenderer { get; set; }
-
-  [Property]
-  public NavMeshAgent Agent { get; set; }
-
-  [Property]
-  public float MeleeRange { get; set; } = 50f;
+  [Property] public SkinnedModelRenderer ModelRenderer { get; set; }
+  [Property] public NavMeshAgent Agent { get; set; }
+  [Property] public float MeleeRange { get; set; } = 50f;
+  [Property] public ModelRenderer HeadModel;
+  [Property] public ParticleSphereEmitter Emitter;
 
   private GameObject target;
 
@@ -73,10 +70,27 @@ public sealed class Enemy : Component, HealthComponent.IEvents
     currentState = EnemyState.Pursue;
   }
 
-  void HealthComponent.IEvents.OnHurt( GameObject gameObject, float damage )
+  private async void Die( bool headshot )
+  {
+    if ( headshot )
+    {
+      //TODO: make some gore or special sound effect
+      HeadModel.Destroy();
+      Emitter.Enabled = true;
+    }
+    await Task.DelaySeconds( 1f );
+    GameObject.Destroy();
+  }
+
+  void HealthComponent.IEvents.OnHurt( GameObject gameObject, float damage, bool headshot )
   {
     if ( gameObject != GameObject ) return;
 
     // ModelRenderer.Set( "hurt", true );
+  }
+
+  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
+  {
+    Die( headshot );
   }
 }

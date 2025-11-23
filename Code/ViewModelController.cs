@@ -4,9 +4,7 @@ using Sandbox;
 public sealed class ViewModelController : Component, PlayerController.IEvents, WeaponController.IEvents
 {
   [Property] public PlayerClient Client;
-
   [Property] public SkinnedModelRenderer WeaponModel { get; set; }
-
   [Property] public SkinnedModelRenderer ArmsModel { get; set; }
 
   private bool _isRunning = false;
@@ -20,7 +18,7 @@ public sealed class ViewModelController : Component, PlayerController.IEvents, W
 
     WeaponModel.Set( "b_twohanded", true );
     _reloadSpeed = Client.PlayerCharacter.WeaponController.ReloadSpeed;
-    WeaponModel.Set( "speed_reload", _reloadSpeed );
+    WeaponModel.Set( "speed_reload", Client.PlayerCharacter.WeaponController.RealReloadSpeed );
   }
 
   protected override void OnUpdate()
@@ -53,7 +51,7 @@ public sealed class ViewModelController : Component, PlayerController.IEvents, W
     if ( _reloadSpeed != Client.PlayerCharacter.WeaponController.ReloadSpeed )
     {
       _reloadSpeed = Client.PlayerCharacter.WeaponController.ReloadSpeed;
-      WeaponModel.Set( "speed_reload", _reloadSpeed );
+      WeaponModel.Set( "speed_reload", Client.PlayerCharacter.WeaponController.RealReloadSpeed );
     }
 
     if ( !Client.PlayerCharacter.WeaponController.IsReloading && _isReloading )

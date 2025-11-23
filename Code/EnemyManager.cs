@@ -30,10 +30,9 @@ public sealed class EnemyManager : Component, HealthComponent.IEvents
     EnemiesSpawned++;
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
+  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
   {
     Enemies.Remove( gameObject );
-    gameObject.Destroy();
     EnemiesKilled++;
 
     if ( EnemiesKilled >= EnemiesPerRound ) GameManager.StartRoundBreak();

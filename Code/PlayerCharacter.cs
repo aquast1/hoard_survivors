@@ -91,7 +91,14 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
     {
       MovementSpeed += 1;
     }
-
+    if ( upgrade.Type == Upgrade.UpgradeType.WeaponDamage )
+    {
+      WeaponController.WeaponDamage += 1;
+    }
+    if ( upgrade.Type == Upgrade.UpgradeType.ReloadSpeed )
+    {
+      WeaponController.ReloadSpeed += 1;
+    }
   }
 
   void NetworkPlayer.IEvents.OnUpgrade( NetworkPlayer networkPlayer, Upgrade upgrade )
@@ -101,7 +108,7 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
     HandleUpgrade( upgrade );
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
+  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
   {
     var character = gameObject.GetComponent<PlayerCharacter>();
 

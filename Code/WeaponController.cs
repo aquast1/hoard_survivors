@@ -8,13 +8,9 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   }
 
   [Property] public PlayerCharacter Player { get; set; }
-
   [Property] public SoundPointComponent PistolFireSound { get; set; }
-
   [Property] public SoundPointComponent PistolReloadSound { get; set; }
-
-  [Property] public float WeaponDamage { get; set; } = 50f;
-
+  [Property] public GameObject BulletTracerPrefab;
   [Property] public float FireCooldown { get; set; } = .2f;
 
   [Property]
@@ -29,8 +25,16 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   [ReadOnly]
   public bool IsReloading = false;
 
-  private float _reloadSpeed;
-  public float ReloadSpeed
+  private int _weaponDamageMultiplier = 3;
+  private int _baseWeaponDamage = 5;
+  private float _critDamageMultiplier = 1.5f;
+  public int WeaponDamage = 1;
+
+  private float _baseReloadSpeed = .2f;
+  private float _reloadSpeedMultiplier = .4f;
+  private int _reloadSpeed;
+  public float RealReloadSpeed;
+  public int ReloadSpeed
   {
     get
     {
@@ -40,10 +44,9 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
     {
       _reloadSpeed = value;
 
-      if ( !IsProxy )
-      {
-        Player.PlayerModel.Set( "speed_reload", value );
-      }
+      RealReloadSpeed = (_reloadSpeed * _reloadSpeedMultiplier) + _baseReloadSpeed;
+
+      Player.PlayerModel.Set( "speed_reload", RealReloadSpeed );
     }
   }
 
@@ -52,7 +55,7 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   protected override void OnStart()
   {
     Ammo = MaxAmmo;
-    ReloadSpeed = .6f;
+    ReloadSpeed = 1;
   }
 
   [Rpc.Broadcast]
@@ -88,15 +91,34 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
       .Radius( 1f )
       .IgnoreGameObjectHierarchy( GameObject )
       .WithoutTags( ["player"] )
+      .UseHitboxes( true )
       .Run();
+
+    // BeamEffect tracer = BulletTracerPrefab.Clone().GetComponent<BeamEffect>();
+    // tracer.WorldPosition = shotStart;
+    // tracer.TargetPosition = shotEnd;
 
     if ( !shotTrace.Hit ) return;
 
-    if ( shotTrace.GameObject.Components.TryGet<HealthComponent>( out var enemy ) )
+    if ( shotTrace.Hitbox != null )
     {
-      enemy.Damage( WeaponDamage );
+      bool headshot = shotTrace.Hitbox.Tags.FirstOrDefault( t => t == "head" ) != null;
+      Log.Info( shotTrace.Hitbox.Tags );
+
+      HealthComponent enemy = shotTrace.GameObject.GetComponent<HealthComponent>();
+
+      float totalDamage = ((WeaponDamage * _weaponDamageMultiplier) + _baseWeaponDamage) * (headshot ? _critDamageMultiplier : 1);
+
+      enemy.Damage( totalDamage, headshot );
+
       return;
     }
+
+    // if ( shotTrace.GameObject.Components.TryGet<HealthComponent>( out var enemy ) )
+    // {
+    //   enemy.Damage( (WeaponDamage * _weaponDamageMultiplier) + _baseWeaponDamage );
+    //   return;
+    // }
   }
 
   [Rpc.Broadcast]
@@ -109,7 +131,7 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
 
     PistolReloadSound.StartSound();
 
-    await Task.DelaySeconds( 1.4f / ReloadSpeed );
+    await Task.DelaySeconds( 1.6f / RealReloadSpeed );
 
     Ammo = MaxAmmo;
 

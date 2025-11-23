@@ -115,12 +115,12 @@ public sealed class GameManager : Component, Component.INetworkListener, ISceneS
 
     playerCharacter.NetworkPlayer = networkPlayer;
 
-    // foreach ( Upgrade upgrade in networkPlayer.ActiveUpgrades )
-    // {
-    //   playerCharacter.HandleUpgrade( upgrade );
-    // }
+    networkPlayer.PlayerCharacter = playerCharacter;
 
-    // networkPlayer.PlayerCharacter = playerCharacter;
+    foreach ( Upgrade upgrade in networkPlayer.ActiveUpgrades )
+    {
+      playerCharacter.HandleUpgrade( upgrade );
+    }
   }
 
   private Transform FindSpawnLocation()
