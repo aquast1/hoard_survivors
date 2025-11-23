@@ -10,7 +10,8 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   [Property] public PlayerCharacter Player { get; set; }
   [Property] public SoundPointComponent PistolFireSound { get; set; }
   [Property] public SoundPointComponent PistolReloadSound { get; set; }
-  [Property] public GameObject BulletTracerPrefab;
+  // [Property] public GameObject BulletTracerPrefab;
+  [Property] public GameObject BulletHoleDecalPrefab;
   [Property] public float FireCooldown { get; set; } = .2f;
 
   [Property]
@@ -59,7 +60,7 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   }
 
   [Rpc.Broadcast]
-  public void Fire()
+  public void Fire( Vector3 shotDirection, Vector3 shotStartPos )
   {
     if ( !_nextShot || Player.IsRunning || IsReloading ) return;
 
@@ -77,23 +78,16 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
     Player.PlayerModel.Set( "b_attack", true );
 
     Scene.RunEvent<IEvents>( x => x.OnShoot( this ) );
+    var shotEnd = shotStartPos + shotDirection * 10000f;
 
-    HandleTrace();
-  }
-
-  private void HandleTrace()
-  {
-    var shootDirection = Player.PlayerController.EyeAngles.Forward;
-    var shotStart = Player.PlayerController.EyePosition;
-    var shotEnd = shotStart + shootDirection * 10000f;
-
-    var shotTrace = Scene.Trace.Ray( shotStart, shotEnd )
+    var shotTrace = Scene.Trace.Ray( shotStartPos, shotEnd )
       .Radius( 1f )
       .IgnoreGameObjectHierarchy( GameObject )
       .WithoutTags( ["player"] )
       .UseHitboxes( true )
       .Run();
 
+    // TODO: get weapon muzzle position both on view model and third person model
     // BeamEffect tracer = BulletTracerPrefab.Clone().GetComponent<BeamEffect>();
     // tracer.WorldPosition = shotStart;
     // tracer.TargetPosition = shotEnd;
@@ -103,7 +97,6 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
     if ( shotTrace.Hitbox != null )
     {
       bool headshot = shotTrace.Hitbox.Tags.FirstOrDefault( t => t == "head" ) != null;
-      Log.Info( shotTrace.Hitbox.Tags );
 
       HealthComponent enemy = shotTrace.GameObject.GetComponent<HealthComponent>();
 
@@ -114,11 +107,8 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
       return;
     }
 
-    // if ( shotTrace.GameObject.Components.TryGet<HealthComponent>( out var enemy ) )
-    // {
-    //   enemy.Damage( (WeaponDamage * _weaponDamageMultiplier) + _baseWeaponDamage );
-    //   return;
-    // }
+    var bulletHole = BulletHoleDecalPrefab.Clone( shotTrace.HitPosition );
+    bulletHole.LocalRotation = Rotation.LookAt( shotTrace.Normal ) * Rotation.FromYaw( 180 );
   }
 
   [Rpc.Broadcast]

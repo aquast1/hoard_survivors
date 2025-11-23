@@ -62,9 +62,9 @@
         "__guid": "f79c09ad-a83a-4f3b-ab96-398405a7da34",
         "__enabled": true,
         "Ammo": 0,
-        "BulletTracerPrefab": {
+        "BulletHoleDecalPrefab": {
           "_type": "gameobject",
-          "prefab": "prefabs/bullettracer.prefab"
+          "prefab": "prefabs/effects/bullethole.prefab"
         },
         "FireCooldown": 0.2,
         "IsReloading": false,
@@ -127,7 +127,7 @@
         "BodyMass": 500,
         "BodyRadius": 16,
         "BrakePower": 1,
-        "CameraOffset": "256,0,12",
+        "CameraOffset": "150,20,20",
         "ColliderObject": {
           "_type": "gameobject",
           "go": "aabdeb24-7a07-4c99-b3cf-865c710e019b"
@@ -167,7 +167,7 @@
         "RunSpeed": 320,
         "ShowColliderComponents": false,
         "ShowRigidbodyComponent": false,
-        "ThirdPerson": false,
+        "ThirdPerson": true,
         "ToggleCameraModeButton": "",
         "UseAnimatorControls": true,
         "UseButton": "use",

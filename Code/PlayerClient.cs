@@ -23,7 +23,7 @@ public sealed class PlayerClient : Component
       // Show/hide viewmodel and crosshair when player spawns/despawns
       if ( _playerCharacter.IsValid() )
       {
-        ViewModelController.Enabled = true;
+        // ViewModelController.Enabled = true;
         Crosshair.Enabled = true;
       }
       // else
@@ -58,7 +58,10 @@ public sealed class PlayerClient : Component
 
     if ( Input.Pressed( "attack1" ) )
     {
-      PlayerCharacter.WeaponController.Fire();
+      var shootDirection = Scene.Camera.WorldTransform.Forward;
+      var shotStart = Scene.Camera.WorldPosition;
+
+      PlayerCharacter.WeaponController.Fire( shootDirection, shotStart );
     }
 
     if ( Input.Pressed( "reload" ) )
