@@ -6,8 +6,7 @@ public sealed class HealthComponent : Component
 {
   public interface IEvents
   {
-    void OnKilled( GameObject gameObject, bool headshot = false ) { }
-    void OnHurt( GameObject gameObject, float damage, bool headshot = false ) { }
+    void OnKilled( GameObject gameObject ) { }
   }
 
   [Property]
@@ -27,6 +26,8 @@ public sealed class HealthComponent : Component
     set
     {
       UpdateHealth( value );
+      if ( Health <= 0 )
+        Kill();
     }
   }
 
@@ -40,14 +41,9 @@ public sealed class HealthComponent : Component
     Gizmo.Draw.Text( $"[{Health}/{MaxHealth}]", WorldTransform, "Roboto", 30 );
   }
 
-  public void Damage( float damage, bool headshot = false )
+  public void Damage( float damage )
   {
     Health -= (float)Math.Round( damage );
-
-    if ( Health <= 0 )
-      Kill( headshot );
-
-    Scene.RunEvent<IEvents>( x => x.OnHurt( GameObject, damage, headshot ) );
   }
 
   private void UpdateHealth( float newHealth )
@@ -61,9 +57,9 @@ public sealed class HealthComponent : Component
     _health = MaxHealth;
   }
 
-  public void Kill( bool headshot = false )
+  public void Kill()
   {
-    Scene.RunEvent<IEvents>( x => x.OnKilled( GameObject, headshot ) );
+    Scene.RunEvent<IEvents>( x => x.OnKilled( GameObject ) );
     Alive = false;
   }
 

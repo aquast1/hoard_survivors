@@ -4,8 +4,8 @@ public sealed class EnemyManager : Component, HealthComponent.IEvents
 {
   [Property] public GameManager GameManager;
   [Property] public GameObject ZombiePrefab { get; set; }
-  [Property] public int MaxSpawnedEnemies = 1;
-  [Property] public int EnemiesPerRound = 1;
+  public int MaxSpawnedEnemies = 1;
+  public int EnemiesPerRound = 10;
 
   [Sync] public NetList<GameObject> Enemies { get; set; } = new();
 
@@ -30,7 +30,7 @@ public sealed class EnemyManager : Component, HealthComponent.IEvents
     EnemiesSpawned++;
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
+  void HealthComponent.IEvents.OnKilled( GameObject gameObject )
   {
     Enemies.Remove( gameObject );
     EnemiesKilled++;

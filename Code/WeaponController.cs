@@ -19,15 +19,15 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
   public int MaxAmmo { get; set; } = 6;
 
   [Property]
-  [Sync( SyncFlags.FromHost )]
+  [Sync]
   public int Ammo { get; set; }
 
   [Property]
   [ReadOnly]
   public bool IsReloading = false;
 
-  private int _weaponDamageMultiplier = 3;
-  private int _baseWeaponDamage = 5;
+  private int _weaponDamageMultiplier = 10;
+  private int _baseWeaponDamage = 10;
   private float _critDamageMultiplier = 1.5f;
   public int WeaponDamage = 1;
 
@@ -98,11 +98,11 @@ public sealed class WeaponController : Component, NetworkPlayer.IEvents
     {
       bool headshot = shotTrace.Hitbox.Tags.FirstOrDefault( t => t == "head" ) != null;
 
-      HealthComponent enemy = shotTrace.GameObject.GetComponent<HealthComponent>();
+      Enemy enemy = shotTrace.GameObject.GetComponent<Enemy>();
 
       float totalDamage = ((WeaponDamage * _weaponDamageMultiplier) + _baseWeaponDamage) * (headshot ? _critDamageMultiplier : 1);
 
-      enemy.Damage( totalDamage, headshot );
+      enemy.Hurt( totalDamage, shotDirection * 200, headshot );
 
       return;
     }

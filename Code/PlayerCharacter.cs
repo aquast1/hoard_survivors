@@ -108,14 +108,14 @@ public sealed class PlayerCharacter : Component, HealthComponent.IEvents, Networ
     HandleUpgrade( upgrade );
   }
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
-  {
-    var character = gameObject.GetComponent<PlayerCharacter>();
+  // void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
+  // {
+  //   var character = gameObject.GetComponent<PlayerCharacter>();
 
-    if ( !character.IsValid() ) return;
+  //   if ( !character.IsValid() ) return;
 
-    if ( character != this ) return;
+  //   if ( character != this ) return;
 
-    Die();
-  }
+  //   Die();
+  // }
 }

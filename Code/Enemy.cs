@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Threading.Tasks;
 using Sandbox;
@@ -5,16 +6,19 @@ using Sandbox;
 public enum EnemyState
 {
   Pursue,
-  Attack
+  Attack,
+  Dead
 }
 
 public sealed class Enemy : Component, HealthComponent.IEvents
 {
-  [Property] public SkinnedModelRenderer ModelRenderer { get; set; }
+  [Property] public ModelRenderer HeadModel { get; set; }
+  [Property] public ModelRenderer BodyModel { get; set; }
   [Property] public NavMeshAgent Agent { get; set; }
   [Property] public float MeleeRange { get; set; } = 50f;
-  [Property] public ModelRenderer HeadModel;
   [Property] public ParticleSphereEmitter Emitter;
+  [Property] public HealthComponent HealthComponent;
+  [Property] public SoundPointComponent HeadExplosionSound;
 
   private GameObject target;
 
@@ -22,6 +26,15 @@ public sealed class Enemy : Component, HealthComponent.IEvents
 
   protected override void OnUpdate()
   {
+    if ( currentState == EnemyState.Dead )
+    {
+      // Color BodyModel
+      Color currentTint = BodyModel.Tint;
+      Color lerpedColor = Color.Lerp( currentTint, new Color( 0, 0, 0, 0 ), .01f );
+      BodyModel.Tint = lerpedColor;
+      return;
+    }
+
     FindTarget();
 
     if ( currentState == EnemyState.Pursue )
@@ -33,8 +46,6 @@ public sealed class Enemy : Component, HealthComponent.IEvents
     {
       Agent.Stop();
     }
-
-    // ModelRenderer.Set( "speed", Agent.Velocity.Length );
   }
 
   private void FindTarget()
@@ -65,7 +76,7 @@ public sealed class Enemy : Component, HealthComponent.IEvents
     currentState = EnemyState.Attack;
     // ModelRenderer.Set( "b_attack", true );
 
-    await Task.DelaySeconds( 3f );
+    await Task.DelaySeconds( 1f );
 
     currentState = EnemyState.Pursue;
   }
@@ -77,20 +88,23 @@ public sealed class Enemy : Component, HealthComponent.IEvents
       //TODO: make some gore or special sound effect
       HeadModel.Destroy();
       Emitter.Enabled = true;
+      HeadExplosionSound.StartSound();
     }
+    currentState = EnemyState.Dead;
+    Agent.Stop();
     await Task.DelaySeconds( 1f );
     GameObject.Destroy();
   }
 
-  void HealthComponent.IEvents.OnHurt( GameObject gameObject, float damage, bool headshot )
+  public void Hurt( float damage, Vector3 push, bool headshot )
   {
-    if ( gameObject != GameObject ) return;
+    push.z = 0;
 
-    // ModelRenderer.Set( "hurt", true );
-  }
+    Agent.Velocity += push;
 
-  void HealthComponent.IEvents.OnKilled( GameObject gameObject, bool headshot )
-  {
-    Die( headshot );
+    HealthComponent.Damage( damage );
+
+    if ( HealthComponent.Health <= 0 )
+      Die( headshot );
   }
 }

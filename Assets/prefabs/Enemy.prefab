@@ -25,20 +25,37 @@
           "go": "910a128d-197e-4a0f-b99b-8859461196bc",
           "component_type": "NavMeshAgent"
         },
+        "BodyModel": {
+          "_type": "component",
+          "component_id": "029c2522-dd2d-446a-809c-562c4569a721",
+          "go": "db73d740-cfe6-491e-9b9f-4cb376dc0615",
+          "component_type": "ModelRenderer"
+        },
         "Emitter": {
           "_type": "component",
           "component_id": "1f584058-6cf6-41f8-b616-76ca96063028",
           "go": "eea95fe2-9e4b-4d0f-abbc-d190f1cf0d48",
           "component_type": "ParticleSphereEmitter"
         },
+        "HeadExplosionSound": {
+          "_type": "component",
+          "component_id": "8cc40b75-a373-4ea2-ad33-430d224b1b81",
+          "go": "910a128d-197e-4a0f-b99b-8859461196bc",
+          "component_type": "SoundPointComponent"
+        },
         "HeadModel": {
           "_type": "component",
-          "component_id": "96c1fc82-7e3e-41ed-9925-a285ffb9db04",
+          "component_id": "a80c65a1-de92-4802-99b0-aa0d45b42471",
           "go": "eea95fe2-9e4b-4d0f-abbc-d190f1cf0d48",
-          "component_type": "ModelRenderer"
+          "component_type": "SkinnedModelRenderer"
+        },
+        "HealthComponent": {
+          "_type": "component",
+          "component_id": "32b79f03-bc4f-4c11-bf8b-03ee323d9fc9",
+          "go": "910a128d-197e-4a0f-b99b-8859461196bc",
+          "component_type": "HealthComponent"
         },
         "MeleeRange": 50,
-        "ModelRenderer": null,
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
         "OnComponentEnabled": null,
@@ -50,7 +67,7 @@
         "__type": "Sandbox.NavMeshAgent",
         "__guid": "03c3b53f-b7c7-427e-a6ae-72d48a05a480",
         "__enabled": true,
-        "Acceleration": 120,
+        "Acceleration": 500,
         "AllowDefaultArea": true,
         "AllowedAreas": [],
         "AutoTraverseLinks": true,
@@ -64,7 +81,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "Radius": 8,
-        "Separation": 0.25,
+        "Separation": 0.5,
         "UpdatePosition": true,
         "UpdateRotation": false
       },
@@ -111,7 +128,7 @@
         "__guid": "69b2b48e-ca3b-4bb1-86b7-8184f6e9bbfa",
         "__enabled": true,
         "CenterA": "0,0,54",
-        "CenterB": "0,0,36",
+        "CenterB": "0,0,54",
         "HitboxTags": "head",
         "OnComponentDestroy": null,
         "OnComponentDisabled": null,
@@ -120,7 +137,7 @@
         "OnComponentStart": null,
         "OnComponentUpdate": null,
         "Radius": 8,
-        "Shape": "Sphere",
+        "Shape": "Capsule",
         "Target": null
       },
       {
@@ -139,6 +156,55 @@
         "Radius": 8,
         "Shape": "Capsule",
         "Target": null
+      },
+      {
+        "__type": "Sandbox.SoundPointComponent",
+        "__guid": "8cc40b75-a373-4ea2-ad33-430d224b1b81",
+        "__enabled": true,
+        "Distance": 512,
+        "DistanceAttenuation": false,
+        "DistanceAttenuationOverride": false,
+        "Falloff": [
+          {
+            "x": 0,
+            "y": 1,
+            "in": 3.1415927,
+            "out": -3.1415927,
+            "mode": "Mirrored"
+          },
+          {
+            "x": 1,
+            "y": 0,
+            "in": 0,
+            "out": 0,
+            "mode": "Mirrored"
+          }
+        ],
+        "Force2d": false,
+        "MaxRepeatTime": 1,
+        "MinRepeatTime": 1,
+        "Occlusion": false,
+        "OcclusionOverride": false,
+        "OcclusionRadius": 32,
+        "OnComponentDestroy": null,
+        "OnComponentDisabled": null,
+        "OnComponentEnabled": null,
+        "OnComponentFixedUpdate": null,
+        "OnComponentStart": null,
+        "OnComponentUpdate": null,
+        "Pitch": 1,
+        "PlayOnStart": false,
+        "ReflectionOverride": false,
+        "Reflections": false,
+        "Repeat": false,
+        "SoundEvent": "sounds/head-explosion.sound",
+        "SoundOverride": false,
+        "StopOnNew": false,
+        "TargetMixer": {
+          "Name": "game",
+          "Id": "45d9bdbd-9861-49e6-bb06-dfe03d5a217e"
+        },
+        "Volume": 1
       }
     ],
     "Children": [
@@ -150,7 +216,7 @@
         "Position": "0,0,54",
         "Rotation": "0,0,0,1",
         "Scale": "0.2,0.2,0.25",
-        "Tags": "",
+        "Tags": "head",
         "Enabled": true,
         "NetworkMode": 2,
         "NetworkInterpolation": true,
@@ -159,22 +225,34 @@
         "OwnerTransfer": 1,
         "Components": [
           {
-            "__type": "Sandbox.ModelRenderer",
-            "__guid": "96c1fc82-7e3e-41ed-9925-a285ffb9db04",
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "a80c65a1-de92-4802-99b0-aa0d45b42471",
             "__enabled": true,
+            "AnimationGraph": null,
             "BodyGroups": 18446744073709551615,
+            "BoneMergeTarget": null,
             "CreateAttachments": false,
+            "CreateBoneObjects": false,
             "LodOverride": null,
             "MaterialGroup": null,
             "MaterialOverride": null,
             "Materials": null,
             "Model": "models/dev/sphere.vmdl",
+            "Morphs": {},
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
             "OnComponentEnabled": null,
             "OnComponentFixedUpdate": null,
             "OnComponentStart": null,
             "OnComponentUpdate": null,
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
             "RenderOptions": {
               "GameLayer": true,
               "OverlayLayer": false,
@@ -182,7 +260,13 @@
               "AfterUILayer": false
             },
             "RenderType": "On",
-            "Tint": "1,0.4493,0.10698,1"
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,0.45098,0.10588,1",
+            "UseAnimGraph": true
           },
           {
             "__type": "Sandbox.ParticleEffect",
@@ -216,7 +300,7 @@
             "FollowerPrefabKill": true,
             "Force": true,
             "ForceDirection": "-1,0,-9.8",
-            "ForceScale": 90,
+            "ForceScale": 60,
             "ForceSpace": "World",
             "Friction": 1,
             "Gradient": {
@@ -248,11 +332,11 @@
             "InitialVelocity": {
               "X": 0,
               "Y": 0,
-              "Z": 1
+              "Z": 100
             },
             "Lifetime": 2,
             "LocalSpace": 0,
-            "MaxParticles": 50,
+            "MaxParticles": 1000,
             "OnComponentDestroy": null,
             "OnComponentDisabled": null,
             "OnComponentEnabled": null,
